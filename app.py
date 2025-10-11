@@ -40,7 +40,8 @@ PANTHEON_NAMES = [
     "Joe Rogan",
     "Muhammad Ali",
     "Carl Sagan",
-    "Albert Einstein"
+    "Albert Einstein",
+    "John Lennon"
 ]
 
 # --- The Core Engine Function ---
@@ -70,4 +71,5 @@ if st.button("Generate Response"):
             response = get_gemini_response(profile_to_use, user_question)
             st.write(response)
     else:
+
         st.write("Please ask a question first.")
