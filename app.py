@@ -41,7 +41,8 @@ PANTHEON_NAMES = [
     "Muhammad Ali",
     "Carl Sagan",
     "Albert Einstein",
-    "John Lennon"
+    "John Lennon",
+    "Winston Churchill"
 ]
 
 # --- The Core Engine Function ---
@@ -73,3 +74,4 @@ if st.button("Generate Response"):
     else:
 
         st.write("Please ask a question first.")
+
