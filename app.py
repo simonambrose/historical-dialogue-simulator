@@ -63,7 +63,8 @@ PANTHEON_NAMES = [
     "Doc Holliday",
     "Frida Kahlo",
     "John F. Kennedy",
-    "Friedrich Nietzsche"
+    "Friedrich Nietzsche", 
+    "Boudicca"
 ]
 
 # --- The Core Engine Function ---
@@ -96,4 +97,5 @@ if st.sidebar.button("Generate Response"):
             st.write(response)
     else:
         st.sidebar.write("Please ask a question first.")
+
 
