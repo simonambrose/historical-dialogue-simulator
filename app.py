@@ -9,20 +9,18 @@ st.set_page_config(
     layout="wide"
 )
 
-# --- The Streamlit User Interface ---
+# --- The Grand Foyer Welcome Text ---
 st.title("Historical Dialogue Simulator")
 st.subheader("Speak with the greatest minds in history.")
-
-# --- The Grand Foyer Welcome Text ---
 st.markdown("""
-Welcome to the Historical Dialogue Simulator, a library of living minds.
+Welcome to the Library of Minds.
 
 Here, through the magic of modern AI, you can engage in conversation with recreations of some of history's most influential figures. Each personality is crafted from their known writings, philosophies, and vocal styles.
 
 **To begin:**
-1.  Choose a figure from the pantheon in the sidebar.
-2.  Ask your question.
-3.  Await their answer.
+1.  Explore the categories in the Library Wing in the sidebar.
+2.  Select a figure to speak with.
+3.  Ask your question.
 
 The conversation has begun.
 """)
@@ -48,27 +46,35 @@ def load_profile(character_name):
         st.error(f"Profile file not found for '{character_name}'. Looking for: {filename}")
         return None
 
-# --- Simple list of characters ---
-PANTHEON_NAMES = [
-    "Bruce Lee",
-    "Joe Rogan",
-    "Muhammad Ali",
-    "Carl Sagan",
-    "Albert Einstein",
-    "John Lennon",
-    "Winston Churchill",
-    "Doc Holliday",
-    "Frida Kahlo",
-    "John F. Kennedy",
-    "Boudica" # <-- Boudica is now in the list
-]
+# --- NEW: Categorized Pantheon ---
+PANTHEON_CATEGORIZED = {
+    "Leaders & Statesmen": [
+        "Winston Churchill",
+        "John F. Kennedy",
+        "Boudica"
+    ],
+    "Scientists & Thinkers": [
+        "Carl Sagan",
+        "Albert Einstein"
+    ],
+    "Artists & Rebels": [
+        "John Lennon",
+        "Frida Kahlo",
+        "Bruce Lee"
+    ],
+    "Warriors & Strategists": [
+        "Muhammad Ali",
+        "Doc Holliday"
+    ],
+    "Modern Minds": [
+        "Joe Rogan"
+    ]
+}
 
 # --- The Core Engine Function ---
 def get_gemini_response(character_profile, user_prompt, chat_history):
   model = genai.GenerativeModel('models/gemini-pro-latest')
   
-  # --- NEW: Enhanced Prompt with Formatting Instruction ---
-  # We also pass the chat history for context.
   full_prompt = (
       f"{character_profile}\n\n"
       f"IMPORTANT INSTRUCTION: Structure your response using Markdown. "
@@ -80,27 +86,29 @@ def get_gemini_response(character_profile, user_prompt, chat_history):
   response = model.generate_content(full_prompt)
   return response.text
 
-# --- Sidebar Controls ---
-st.sidebar.title("Control Panel")
-character_choice = st.sidebar.selectbox(
-    "Choose a historical figure:",
-    PANTHEON_NAMES
-)
-user_question = st.sidebar.text_input(f"Ask your question to {character_choice}:")
-
-# --- NEW: Session State Initialization for Conversation History ---
-# This creates a 'memory' for our app
+# --- Session State Initialization ---
+if 'character_choice' not in st.session_state:
+    st.session_state['character_choice'] = "Winston Churchill" # Default character
 if 'chat_history' not in st.session_state:
     st.session_state['chat_history'] = {}
 
-if 'current_character' not in st.session_state:
-    st.session_state['current_character'] = character_choice
+# --- Sidebar Controls ---
+st.sidebar.title("The Library Wing")
 
-# --- NEW: Reset history if character changes ---
-if st.session_state['current_character'] != character_choice:
-    st.session_state['chat_history'][st.session_state['current_character']] = [] # Save old history
-    st.session_state['current_character'] = character_choice
-    st.experimental_rerun() # Rerun to reflect the change
+# --- NEW: Categorized Sidebar Layout ---
+for category, members in PANTHEON_CATEGORIZED.items():
+    with st.sidebar.expander(category):
+        for member in members:
+            if st.button(member, key=member, use_container_width=True):
+                # When a character button is clicked, update the session state
+                if st.session_state['character_choice'] != member:
+                    st.session_state['character_choice'] = member
+                    # No need to rerun here, Streamlit's button logic handles it
+
+character_choice = st.session_state['character_choice']
+
+st.sidebar.markdown("---")
+user_question = st.sidebar.text_input(f"Ask your question to {character_choice}:")
 
 # Get the history for the currently selected character
 current_history_list = st.session_state.chat_history.get(character_choice, [])
@@ -110,25 +118,23 @@ if st.sidebar.button("Generate Response"):
     if user_question:
         profile_to_use = load_profile(character_choice)
         if profile_to_use:
-            # Create a string version of the history for the prompt
             history_for_prompt = "\n".join([f"User: {entry['user']}\n{character_choice}: {entry['model']}" for entry in current_history_list])
-            
-            # Get the new response
             response = get_gemini_response(profile_to_use, user_question, history_for_prompt)
-            
-            # Add the new exchange to the history
             current_history_list.append({"user": user_question, "model": response})
             st.session_state.chat_history[character_choice] = current_history_list
     else:
         st.sidebar.warning("Please ask a question first.")
 
-# --- NEW: Display the Conversation History ---
+# --- Display the Conversation History ---
 st.subheader(f"Conversation with {character_choice}")
 if not current_history_list:
     st.info("Your conversation will appear here.")
 else:
-    for entry in current_history_list:
-        with st.chat_message("user"):
-            st.markdown(entry['user'])
-        with st.chat_message("assistant"):
-            st.markdown(entry['model'])
+    # We use a little trick to make sure the chat rerenders when a new response is added
+    chat_container = st.container()
+    with chat_container:
+        for entry in current_history_list:
+            with st.chat_message("user"):
+                st.markdown(entry['user'])
+            with st.chat_message("assistant"):
+                st.markdown(entry['model'])
