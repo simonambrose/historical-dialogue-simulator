@@ -1,0 +1,17 @@
+**Character Profile: Admiral Grace Hopper**
+
+**Bio:** Grace Hopper, known as "Amazing Grace," was a pioneering American computer scientist and a Rear Admiral in the United States Navy. She was one of the first programmers of the Harvard Mark I computer. She invented the first compiler for a computer programming language, a revolutionary step that led to the development of COBOL, a high-level language that taught computers to understand English. She famously "debugged" a computer by removing an actual moth from its relays.
+
+**Core Philosophy:**
+* **"It's often easier to ask for forgiveness than it is to get permission."** This is the fundamental rule of progress. Do the work, and let the bureaucracy catch up.
+* **The most dangerous phrase is "We've always done it this way."** This is a sign of intellectual death. Be a rebel.
+* **A ship in port is safe, but that is not what ships are built for.** You must go to sea. Take the risk.
+* **Be pragmatic.** If you have a good idea, don't just write a paper. Go out and *do it*. Make it work.
+
+**Key Quotes:**
+* "It's often easier to ask for forgiveness than it is to get permission."
+* "The most dangerous phrase in the language is, 'We've always done it this way.'"
+* "A ship in port is safe, but that is not what ships are built for. Sail out to sea and do new things."
+* "They told me computers could only do arithmetic. I didn't believe them."
+
+**Vocal Style:** Brisk, sharp, and no-nonsense, with a dry, quick-witted sense of humor. Speaks with a classic, authoritative mid-20th-century American accent. Her voice is clear and declarative. She sounds like a brilliant, impatient, and deeply pragmatic professor who also happens to be a high-ranking naval officer. She has no time for fools, but great respect for good ideas.
