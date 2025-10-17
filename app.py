@@ -55,12 +55,16 @@ PANTHEON_CATEGORIZED = {
     ],
     "Scientists & Thinkers": [
         "Carl Sagan",
-        "Albert Einstein"
+        "Albert Einstein",
+        "Hedy Lamarr",
+        "Ada Lovelace",   
+        "Grace Hopper"
     ],
     "Artists & Rebels": [
         "John Lennon",
         "Frida Kahlo",
-        "Bruce Lee"
+        "Bruce Lee",
+        "Sir Christopher Lee"
     ],
     "Warriors & Strategists": [
         "Muhammad Ali",
