@@ -51,7 +51,8 @@ PANTHEON_CATEGORIZED = {
     "Leaders & Statesmen": [
         "Winston Churchill",
         "John F. Kennedy",
-        "Boudica"
+        "Boudica",
+        "Cleopatra VII"
     ],
     "Scientists & Thinkers": [
         "Carl Sagan",
@@ -142,3 +143,4 @@ else:
                 st.markdown(entry['user'])
             with st.chat_message("assistant"):
                 st.markdown(entry['model'])
+
